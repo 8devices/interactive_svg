@@ -1,0 +1,5 @@
+https://github.com/svg/svgo-gui
+https://jakearchibald.github.io/svgomg/
+https://github.com/svg/svgo
+
+http://www.smashingmagazine.com/2014/11/styling-and-animating-svgs-with-css/#embedding-svgs

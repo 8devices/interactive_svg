@@ -1,0 +1,15 @@
+0       1        2             3       4      5
+img_id  obj_id   setProperty   style   fill   red
+img_id  obj_id   setProperty   x       100    none
+img_id  obj_id   textContent   value 
+img_id  obj_id   showpicture  path_to_image
+
+
+img_id  obj_id   add_event     onmouse
+img_id  obj_id   del_event     onmousemove
+
+
+img_id default event - onload
+img_id default event - onresize
+img_id default event - onmove
+

@@ -1,0 +1,10 @@
+serveris
+========
+app.py --port=7777 --host=192.168.100.211
+
+*** host butinai toks adresas bus rasomas narsykleje. Jei skirsis, cookie bus irasoma klaidingu vardu ir websocket nebus suristas su www
+
+
+narsykle
+========
+http://192.168.100.211:7777/
