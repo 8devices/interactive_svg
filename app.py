@@ -73,7 +73,7 @@ class IndexHandler(web.RequestHandler):
         session={}
         session["cookie"] = self
         sessions[id] = session
-        self.render("index.html", server_url=options.host, server_port=options.port) 
+        self.render("static/index.html", server_url=options.host, server_port=options.port) 
 
 
 class SocketHandler(websocket.WebSocketHandler):
@@ -117,7 +117,7 @@ settings = {
 app = web.Application([
     (r'/', IndexHandler),
     (r'/ws', SocketHandler),
-    (r'/(.*)', web.StaticFileHandler, {'path': './'}),
+    (r'/(.*)', web.StaticFileHandler, {'path': './static'}),
 ], **settings)
 
 
