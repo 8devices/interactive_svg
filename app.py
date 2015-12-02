@@ -111,7 +111,8 @@ class SocketHandler(websocket.WebSocketHandler):
 
 settings = {
     "cookie_secret": str(uuid.uuid1()),
-    "xsrf_cookies": True
+    "xsrf_cookies": True,
+    "debug": True
 }
 
 app = web.Application([

@@ -18,7 +18,7 @@ def pp(a, b):
 
         # dummy button events - change color
         try:
-            if parsed_json['onmousedown'] == 'START':
+            if parsed_json['mousedown'] == 'START':
                 sys.stdout.write('{"arg1": "path11108", "arg2": "fill", "arg3": "set_property", "arg4": "#ff0000"}\r\n')
                 sys.stdout.flush()
         except:
@@ -32,7 +32,7 @@ def pp(a, b):
             pass
 
         try:
-            if parsed_json['onmousedown'] == 'circle11035':
+            if parsed_json['mousedown'] == 'circle11035':
                 sys.stdout.write('{"arg1": "path11108", "arg2": "fill", "arg3": "set_property", "arg4": "#0000ff"}\r\n')
                 sys.stdout.flush()
         except:
@@ -46,14 +46,21 @@ sys.stdout.flush()
 
 # dummy action - blinky
 for i in range(3):
-    led_green = '{"arg1": "path11208", "arg2": "fill", "arg3": "set_property", "arg4": "#00ff00"}'
-    led_red = '{"arg1": "path11208", "arg2": "fill", "arg3": "set_property", "arg4": "#ffffff"}'
+    set_fill = '{"arg1": "%s", "arg2": "fill", "arg3": "set_property", "arg4": "%s"}'+"\r\n"
 
-    sys.stdout.write(led_green+"\r\n")
+    led_d16 = "path11108"
+    led_pwr = "path11208"
+
+    color_green = "#00ff00"
+    color_white = "#ffffff"
+
+    sys.stdout.write( str((set_fill) % (led_pwr, color_white )) )
+    sys.stdout.write( str((set_fill) % (led_d16, color_green )) )
     sys.stdout.flush()
     time.sleep(0.5)
 
-    sys.stdout.write(led_red+"\r\n")
+    sys.stdout.write( str((set_fill) % (led_pwr, color_green )) )
+    sys.stdout.write( str((set_fill) % (led_d16, color_white )) )
     sys.stdout.flush()
     time.sleep(0.5)
 
