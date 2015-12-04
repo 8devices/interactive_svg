@@ -3,3 +3,8 @@ https://jakearchibald.github.io/svgomg/
 https://github.com/svg/svgo
 
 http://www.smashingmagazine.com/2014/11/styling-and-animating-svgs-with-css/#embedding-svgs
+
+
+
+
+https://impythonist.wordpress.com/2015/08/02/build-a-real-time-data-push-engine-using-python-and-rethinkdb/

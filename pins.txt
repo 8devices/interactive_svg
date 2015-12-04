@@ -1,0 +1,30 @@
+   bubble1  text1	      bubble_lg text_lg
+D0 path5743 text11311_13_ path5750 text11311_12_
+D1 path5757 text11311_15_ path5764 text11311_14_
+D2 path5771 text11311_17_ path5778 text11311_16_
+D3 path5785 text11311_19_ path5792 text11311_18_
+D4 path5799 text11311_21_ path5806 text11311_20_
+D5 path5813 text11311_23_ path5820 text11311_22_
+D6 path5827 text11311_25_ path5834 text11311_24_
+D7 path5841 text11311_27_ path5848 text11311_26_
+D8 path5855 text11311_29_ path5862 text11311_28_
+D9 path5869 text11311_31_ path5876 text11311_30_
+D10 path5883 text11311_33_ path5890 text11311_32_
+D11 path5897 text11311_35_ path5904 text11311_34_
+D12 path3030 text11405 path5736 text11311_11_
+D13 path3024 text11399 path5729 text11311_10_
+D14 path3018 text11393 path5722 text11311_9_
+D15 path3012 text11387 path5715 text11311_8_
+D16 path3006 text11379 path5708 text11311_7_
+D17 path3000 text11375 path5701 text11311_6_
+D18 path2994 text11363 path5694 text11311_5_
+D19 path2988 text11347 path5687 text11311_4_
+D20 path3036 path3036 path5680 text11311_3_
+D21 path3042 text11321 path5673 text11311_2_
+D22 path3048 text11311 path5666 text11311_1_
+
+BTN1 circle11031
+BTN_RST circle11035
+
+LED1 path11108
+LED_PWR path11208
