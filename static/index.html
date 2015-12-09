@@ -4,14 +4,6 @@
     <title>tornado WebSocket example</title>
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
     <script type="text/javascript" src="./jquery.min.js"></script>
-    <style type="text/css">
-    svg > * {
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        user-select: none;
-    }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -20,10 +12,16 @@
             WebSocket status : <span id="message"></span>
         <hr>
         <object id="svg_img" type="image/svg+xml" data="./8DEV_2400-pinout.svg" height="500" width="1000" ></object>
+        <div>
+            <button id="btn-green-pcb" class="btn btn-success" disabled="disabled">Green PCB</button>
+            <button id="btn-blue-pcb" class="btn btn-primary" disabled="disabled">Blue PCB</button>
+            <button id="btn-red-pcb" class="btn btn-danger" disabled="disabled">Red PCB</button>
+            <button id="btn-test" class="btn btn-default" disabled="disabled">Test</button>
+        </div>
 
     </div>
 
-    <script type="text/javascript" src="./svgGui.lib.js"></script> 
+    <script type="text/javascript" src="./py8dev.lib.js"></script> 
     <script>
         // Lets start only when DOM is fully loaded 
         window.addEventListener("load", function() {
@@ -31,7 +29,7 @@
             /* Using SVG GUI library to manipulate SVG element. 
              * For library Init function as argument give ID of SVG image container
              */
-            var gui = svgGUI.init("svg_img");
+            var svgObjects = [];
 
             // Open WebSocket
             var ws = new WebSocket('ws://{{(server_url)}}:{{(server_port)}}/ws');
@@ -49,11 +47,39 @@
 
                 var json = JSON.parse(ev.data);
 
+                var rootNode = document;
+
                 // http://localhost:8888/api?id=1&arg2=LOW&arg1=text5725&arg3=text
-                if (json.arg3 == 'text')
-                {
-                    var text_1 = document.getElementById('svg_img').contentDocument.getElementById(json.arg1).textContent = json.arg2;
+                if ('svgId' in json) {
+                    var svgId = json['svgId'];
+                    if (svgObjects[svgId] === undefined ) {
+                        svgObjects[svgId] = py8Dev.initSVG(svgId);
+                    };
+
+                    rootNode = svgObjects[svgId];
                 }
+
+                if ('elmId' in json) {
+                    elmObj = rootNode.getElementById(json['elmId']);
+
+                    if ('eventAdd' in json) {
+                        py8Dev.eventAdd(elmObj, json['eventAdd'], sendEvent);
+                    }
+
+                    if ('attrRem' in json) {
+                        py8Dev.attributeSet(elmObj, json['attrRem'], true);
+                    }
+
+                    if ('attrSet' in json) {
+                        py8Dev.attributeSet(elmObj, json['attrSet']);
+                    }
+
+                    if ('style' in json) {
+                        py8Dev.styleSet(elmObj, json['style']);
+                    }
+                }
+
+
 
                 if (json.arg3 == 'set_property')
                 {
@@ -64,19 +90,19 @@
 
                     // {"arg1": "path11108", "arg2": "fill", "arg3": "set_property", "arg4": "#ff0000", "id": "1"}
                     // {"arg1": "path11208", "arg2": "fill", "arg3": "set_property", "arg4": "#00ff00", "id": "1"}
-                    document.getElementById('svg_img').contentDocument.getElementById(json.arg1).style[json.arg2] = json.arg4;
+                    //document.getElementById('svg_img').contentDocument.getElementById(json.arg1).style[json.arg2] = json.arg4;
                 }
             };
 
             ws.onclose = function(ev){
                 $message.attr("class", 'label label-important');
                 $message.text('closed');
-            };
+            }
 
             ws.onerror = function(ev){
                 $message.attr("class", 'label label-warning');
                 $message.text('error occurred');
-            };
+            }
 
             // Anonymous function to send events to server using WS
             var sendEvent = function (ev) {
@@ -85,10 +111,10 @@
  
             // For event naming use event type: https://en.wikipedia.org/wiki/DOM_events
             // attachEvent(eventType, elementId, callBackFunction)
-            gui.attachEvent('click', 'circle11031', sendEvent);
-            gui.attachEvent('mousedown', 'circle11035', sendEvent);
-            //gui.attachEvent('mousedown', 'START', sendEvent);
-            //gui.removeEvent('mousedown', 'START', sendEvent);
+            ///py8Dev.attachEvent('click', svgObjects['svg_img'].getElementById('circle11031'), sendEvent);
+            ///py8Dev.attachEvent('mousedown', svgObjects['svg_img'].getElementById('circle11035'), sendEvent);
+            //svgImg.attachEvent('mousedown', 'START', sendEvent);
+            //svgImg.removeEvent('mousedown', 'START', sendEvent);
 
         });
     </script>
