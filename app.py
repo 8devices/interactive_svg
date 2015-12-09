@@ -89,7 +89,7 @@ class SocketHandler(websocket.WebSocketHandler):
         session["ws"] = self
         sessions[cookie] = session
 
-        cmd = ['python', 'client.py']
+        cmd = ['python', '8DEV_2400-machine.py']
         thread.start_new_thread(pipe_thread, (cmd, cookie))
 
 
