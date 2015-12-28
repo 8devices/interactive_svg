@@ -135,10 +135,10 @@ sys.stdout.write('{"svgId": "svg_img", "elmId": "polygon10753", "eventAdd": "mou
 sys.stdout.write('{"svgId": "svg_img", "elmId": "polygon10753", "eventAdd": "mouseout" }\r\n')
 
 # Adds events to buttons and sets attribute disabled to empty 
-sys.stdout.write('{"elmId": "btn-green-pcb", "eventAdd": "click", "attrRem": {"disabled":""}}\r\n')
+sys.stdout.write('{"elmId": "btn-green-pcb", "eventAdd": ["click","mouseout"], "attrRem": {"disabled":""}}\r\n')
 sys.stdout.write('{"elmId": "btn-blue-pcb", "eventAdd": "click", "attrRem": {"disabled":""}}\r\n')
-sys.stdout.write('{"elmId": "btn-red-pcb", "eventAdd": "click", "attrRem": {"disabled":""}, "attrSet": { "class": ["one","two","three"] }}\r\n')
-sys.stdout.write('{"elmId": "btn-test", "eventAdd": "click", "attrRem": {"disabled":""}, "attrRem": { "class": "" }}\r\n')
+sys.stdout.write('{"elmId": "btn-red-pcb", "eventAdd": "click", "attrRem": "disabled", "classAdd": ["one","two","three"] }\r\n')
+sys.stdout.write('{"elmId": "btn-test", "eventAdd": "click", "attrRem": ["disabled"], "classRem": "" }\r\n')
 sys.stdout.flush()
 
 # endless loop

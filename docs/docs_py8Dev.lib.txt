@@ -4,26 +4,36 @@ Protocol structure:
 JSON commands
 ===================================
 
-* svgId (string) - SVG image ID. If element is not in SVG do not set it at all.
+"<cmd>":"<parameters>"
 
-* elmId (string) - IDc for element that will be affected
+Command list:
 
-* style (object) - object with styles (ex. {"color":"red","border":"1px solid #ccc"})
+* svgId : <string> - SVG image ID. If element is not in SVG do not set it at all.
 
-* attrSet (object) - object with attributes that must be set (ex. {"disabled":"disabled","class":"newClass"})
-	For "class" attribute multiple values can be provided (string - "newClass", array - ["newClass1","newClass2"])
+* elmId : <string> - ID for element that will be affected
 
-* attrRem (object) - object with attributes that must be removed (ex. {"disabled":"","class":"someClass"})
-	When removing other than "class" attribute there is no need to provide value
-	To remove one class then provide its name as value (ex. {"class":"someClass"})
-	To remove all classes then provide empty value (ex. {"class":""})
+* style : <object> - adds styles to element
+    Parameter is an object with styles (ex. {"color":"red","border":"1px solid #ccc"})
 
-* eventAdd - WORKS 
-	TODO: write description
+* attrSet : <object> - sets element attributes.
+    Parameter is an object with attributes that must be set (ex. {"disabled":"disabled","type":"button"})
 
-* eventRem - NOT IMPLEMENTED YET 
-	TODO: implement and write description
+* attrRem : <string|array|object> - removes element attributes
+    Parameter can be an array (ex. ["disabled","type"]) string (ex. "disabled") or an object (ex. {"disabled":"","type":""}) with attribute names
 
+* classAdd : <string|array> - adds classes to element
+
+* classRem : <string|array> - removes classes from element.
+    If empty string is provided whole class attribute is removed!
+
+* eventAdd : <string|array> - adds event listener to element
+    Parameter is a string or array of strings equal to event type: https://en.wikipedia.org/wiki/DOM_events
+
+* eventRem : <string|array> - removes event from element
+	Parameter is a string or array of strings equal to event type (see eventAdd)
+
+
+NOTE: all commands that delete or remove something are executed before add or set command of the same type (ex. "classAdd" is executed after "classRem", "attrSet" after "attrRem" etc.)
 
 
 ===================================
@@ -43,14 +53,30 @@ EXAMPLES
 }
 
 ####
-# 2. Set element (id="button-start") class to "btn-default" () and remove disabled attribute
+# 2. Add class "btn-default" to element (id="button-start") and remove disabled attribute
 ####
 {
 	"elmId": "button-start", 
-	"attrSet": {
-		"class": "btn-default"
-	},
+	"classAdd": [
+		"btn-default"
+	],
 	"attrRem": {
 		"disabled": ""
 	}
 }
+
+
+####
+# 3. Add event "click" and "mouseout" to element (id="button-start") and remove disabled attribute
+####
+{
+	"elmId": "button-start",
+	"eventAdd": [
+		"click",
+		"mouseout"
+	],
+	"attrRem": {
+		"disabled": ""
+	}
+}
+

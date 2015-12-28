@@ -25,7 +25,6 @@
         wsConnect(options.wsURL);
     };
 
-
     // Connect to WebSocket
     var wsConnect = function(wsURL) {
 
@@ -66,7 +65,7 @@
     // WebSocked receive
     var wsReceive = function(ev) {
         if (options.debug)
-            console.log("WebSocket received:" + ev.data);
+            console.log("WS recv <-| " + ev.data);
 
         var json = JSON.parse(ev.data);
 
@@ -77,7 +76,7 @@
             var svgId = json['svgId'];
             if (svgObjects[svgId] === undefined ) {
                 svgObjects[svgId] = initSVG(svgId);
-            };
+            }
 
             rootNode = svgObjects[svgId];
         }
@@ -85,28 +84,41 @@
         if ('elmId' in json) {
             elmObj = rootNode.getElementById(json['elmId']);
 
-            if ('eventAdd' in json) {
+            if ('eventRem' in json)
+                eventRemove(elmObj, json['eventRem'], wsSendEvent);
+
+            if ('eventAdd' in json)
                 eventAdd(elmObj, json['eventAdd'], wsSendEvent);
-            }
 
-            if ('attrRem' in json) {
+            if ('attrRem' in json)
                 attributeSet(elmObj, json['attrRem'], true);
-            }
 
-            if ('attrSet' in json) {
+            if ('attrSet' in json)
                 attributeSet(elmObj, json['attrSet']);
-            }
 
-            if ('style' in json) {
+            if ('classRem' in json)
+                classRemove(elmObj, json['classRem'], true);
+
+            if ('classAdd' in json)
+                classAdd(elmObj, json['classAdd']);
+
+            if ('style' in json)
                 styleSet(elmObj, json['style']);
-            }
         }
     };
 
+    // WebSocked send
+    var wsSend = function(msg) {
+        ws.send(msg);
+
+        if (options.debug)
+            console.log("WS send |-> " + msg);
+    }
+
     // Send events to WS
     var wsSendEvent = function (ev) {
-        ws.send('{"' + ev.type + '": "'+ this.id +'"}\r\n');
-    }
+        wsSend('{"' + ev.type + '": "'+ this.id +'"}\r\n');
+    };
 
     // Initialize SVG object
     var initSVG = function(svgId) {
@@ -129,14 +141,22 @@
         return svgElm;
     };
 
-    /* Adds event to element
+    /* Adds event(-s) to an element
      * For event naming use event type: https://en.wikipedia.org/wiki/DOM_events
      * eventAdd(elementId, eventType, callBackFunction)
      */
     var eventAdd = function(elm, ev, cb_fn) {
         if (elm !== null ) {
-            elm.addEventListener(ev, cb_fn, false);
-            elm.classList.add("ev-"+ev);
+
+            // If we have string make it as array
+            if (typeof ev === 'string')
+                ev = [ev];
+
+            // Attach all event listeners to element
+            for (var i = 0; i < ev.length; i++) {
+                elm.addEventListener(ev[i], cb_fn, false);
+                elm.classList.add("ev-"+ev[i]);
+            }
         }
     };
 
@@ -145,8 +165,16 @@
      */
     var eventRemove = function(elm, ev, cb_fn) {
         if (elm !== null ) {
-            elm.removeEventListener(ev, cb_fn, false);
-            elm.classList.remove("ev-"+ev);
+
+            // If we have string make it as array
+            if (typeof ev === 'string')
+                ev = [ev];
+
+            // Attach all event listeners to element
+            for (var i = 0; i < ev.length; i++) {
+                elm.removeEventListener(ev[i], cb_fn, false);
+                elm.classList.remove("ev-"+ev[i]);
+            }
         }
     };
 
@@ -184,26 +212,34 @@
         }
     };
 
-    // Sets element attributes
+    // Sets or removes (if remove=true) element attributes
     var attributeSet = function (elmId, attributeObject, remove) {
         remove = remove || false;
 
         if (elmId !== null) {
 
+            // If we got simple string
+            if (typeof attributeObject === 'string')
+                attributeObject = [attributeObject];
+
+            // If we got array with attribute names
+            var isObjArray = (Object.prototype.toString.call(attributeObject) == "[object Array]");
+
             for (var attribute in attributeObject) {
                 if (remove) {
-                    if (attribute == "class")
-                        classRemove(elmId, attributeObject[attribute]);
-                    else
-                        elmId.removeAttribute(attribute);
+
+                    // If we have simple array then use value instead of key
+                    if (isObjArray)
+                        attribute = attributeObject[attribute];
+
+                    // Remove attribute
+                    elmId.removeAttribute(attribute);
                 } else {
-                    if (attribute == "class")
-                        classAdd(elmId, attributeObject[attribute]);
-                    else
-                        elmId.setAttribute(attribute, attributeObject[attribute]);
+                    // Set attribute
+                    elmId.setAttribute(attribute, attributeObject[attribute]);
                 }
             }
         }
     };
 
-}( window.py8Dev = window.py8Dev || {} ))
+}( window.py8Dev = window.py8Dev || {} ));
