@@ -139,6 +139,12 @@ sys.stdout.write('{"elmId": "btn-green-pcb", "eventAdd": ["click","mouseout"], "
 sys.stdout.write('{"elmId": "btn-blue-pcb", "eventAdd": "click", "attrRem": {"disabled":""}}\r\n')
 sys.stdout.write('{"elmId": "btn-red-pcb", "eventAdd": "click", "attrRem": "disabled", "classAdd": ["one","two","three"] }\r\n')
 sys.stdout.write('{"elmId": "btn-test", "eventAdd": "click", "attrRem": ["disabled"], "classRem": "" }\r\n')
+
+
+sys.stdout.write('{"svgId": "svg_img", "elmId": "text11311_12_", "innerText": "GPIO15", "style": {"font-style":"italic"} }\r\n')
+sys.stdout.write('{"svgId": "svg_img", "elmId": "text11311_14_", "innerText": "TX", "style": {"font-style":"italic"} }\r\n')
+sys.stdout.write('{"svgId": "svg_img", "elmId": "text11311_16_", "innerText": "RX", "style": {"font-style":"italic"} }\r\n')
+
 sys.stdout.flush()
 
 # endless loop

@@ -32,6 +32,12 @@ Command list:
 * eventRem : <string|array> - removes event from element
 	Parameter is a string or array of strings equal to event type (see eventAdd)
 
+* innerHTML : <text> - sets element content with HTML code
+    Parameter is text that can be HTML code
+
+* innerText : <text> - sets element content no HTML is interpreted
+    Parameter is plain text, HTML tags are shown as is without interpreting it
+
 
 NOTE: all commands that delete or remove something are executed before add or set command of the same type (ex. "classAdd" is executed after "classRem", "attrSet" after "attrRem" etc.)
 

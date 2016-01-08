@@ -97,13 +97,19 @@
                 attributeSet(elmObj, json['attrSet']);
 
             if ('classRem' in json)
-                classRemove(elmObj, json['classRem'], true);
+                classRemove(elmObj, json['classRem']);
 
             if ('classAdd' in json)
                 classAdd(elmObj, json['classAdd']);
 
             if ('style' in json)
                 styleSet(elmObj, json['style']);
+
+            if ('innerHTML' in json)
+                innerContent(elmObj, json['innerHTML'], true);
+
+            if ('innerText' in json)
+                innerContent(elmObj, json['innerText'], false);
         }
     };
 
@@ -239,6 +245,22 @@
                     elmId.setAttribute(attribute, attributeObject[attribute]);
                 }
             }
+        }
+    };
+
+    // Sets inner elemrnt content
+    var innerContent = function (elmId, content, isHtml) {
+        isHtml = isHtml || false;
+
+        if (elmId !== null) {
+
+            if (isHtml)
+                elmId.innerHTML = content;
+            else
+                if (typeof elmId.textContent !== "undefined")
+                    elmId.textContent = content;
+                else
+                    elmId.innerText = content;
         }
     };
 
